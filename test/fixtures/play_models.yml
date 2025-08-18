@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender: one
+  play_time: one
+  play_style: one
+  talk_style: one
+
+two:
+  gender: two
+  play_time: two
+  play_style: two
+  talk_style: two

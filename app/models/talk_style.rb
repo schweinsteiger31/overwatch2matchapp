@@ -1,0 +1,2 @@
+class TalkStyle < ApplicationRecord
+end
