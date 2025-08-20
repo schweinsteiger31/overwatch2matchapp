@@ -1,9 +1,30 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+roles = {
+  tank: "タンクヒーロー",
+  damage: "ダメージヒーロー",
+  support: "サポートヒーロー"
+}
+
+roles.each do |role, prefix|
+  10.times do |n|
+    Hero.create!(
+      name: "#{prefix}#{n + 1}",
+      role: role
+    )
+  end
+end
+
+
+rank_names = %w[
+  ブロンズ
+  シルバー
+  ゴールド
+  プラチナ
+  ダイヤモンド
+  マスター
+  グランドマスター
+  トップ500
+]
+
+rank_names.each_with_index do |name, i|
+  Rank.find_or_create_by!(name: name)
+end

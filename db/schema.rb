@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_18_111452) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_20_073913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_111452) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0, null: false
+  end
+
+  create_table "play_model_ranks", force: :cascade do |t|
+    t.bigint "play_model_id", null: false
+    t.bigint "rank_id", null: false
+    t.integer "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["play_model_id"], name: "index_play_model_ranks_on_play_model_id"
+    t.index ["rank_id"], name: "index_play_model_ranks_on_rank_id"
   end
 
   create_table "play_models", force: :cascade do |t|
@@ -54,6 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_111452) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "vc"
   end
 
   create_table "user_heros", force: :cascade do |t|
@@ -75,6 +86,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_111452) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "play_model_ranks", "play_models"
+  add_foreign_key "play_model_ranks", "ranks"
   add_foreign_key "play_models", "play_styles"
   add_foreign_key "play_models", "play_times"
   add_foreign_key "play_models", "talk_styles"
