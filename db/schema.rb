@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_20_073913) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_21_044045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "heros", force: :cascade do |t|
+  create_table "favorite_heroes", force: :cascade do |t|
+    t.bigint "play_model_id", null: false
+    t.bigint "hero_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hero_id"], name: "index_favorite_heroes_on_hero_id"
+    t.index ["play_model_id"], name: "index_favorite_heroes_on_play_model_id"
+  end
+
+  create_table "heroes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -37,19 +46,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_073913) do
     t.bigint "talk_style_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tank_rank_id"
+    t.integer "damage_rank_id"
+    t.integer "support_rank_id"
+    t.bigint "user_id", null: false
     t.index ["play_style_id"], name: "index_play_models_on_play_style_id"
     t.index ["play_time_id"], name: "index_play_models_on_play_time_id"
     t.index ["talk_style_id"], name: "index_play_models_on_talk_style_id"
+    t.index ["user_id"], name: "index_play_models_on_user_id"
   end
 
   create_table "play_styles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "style"
   end
 
   create_table "play_times", force: :cascade do |t|
-    t.string "name"
+    t.integer "time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -67,15 +82,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_073913) do
     t.integer "vc"
   end
 
-  create_table "user_heros", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "hero_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["hero_id"], name: "index_user_heros_on_hero_id"
-    t.index ["user_id"], name: "index_user_heros_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -86,11 +92,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_073913) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "favorite_heroes", "heroes"
+  add_foreign_key "favorite_heroes", "play_models"
   add_foreign_key "play_model_ranks", "play_models"
   add_foreign_key "play_model_ranks", "ranks"
   add_foreign_key "play_models", "play_styles"
   add_foreign_key "play_models", "play_times"
   add_foreign_key "play_models", "talk_styles"
-  add_foreign_key "user_heros", "heros"
-  add_foreign_key "user_heros", "users"
+  add_foreign_key "play_models", "users"
 end
