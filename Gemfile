@@ -19,6 +19,15 @@ gem "jbuilder"
 
 gem "faker"
 
+# ログイン
+gem "devise"
+
+# Bootstrap 5 framework integration
+gem "bootstrap", "~> 5.3"
+
+gem "sassc-rails"
+
+gem "enum_help"
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]

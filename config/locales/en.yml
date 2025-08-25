@@ -27,5 +27,9 @@
 #       "yes": yup
 #       enabled: "ON"
 
-en:
-  hello: "Hello world"
+  ennum:
+    user:
+      gender: 
+        male: "男性"
+        female: "女性"
+        other: "その他"

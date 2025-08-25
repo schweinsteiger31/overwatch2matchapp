@@ -1,0 +1,15 @@
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #ccc;">
+  <!-- 左側：タイトル -->
+  <div class="header-title">
+    <%= link_to "Ow2 Match", root_path, style: "font-weight: bold; text-decoration: none; color: black;" %>
+  </div>
+
+  <!-- 右側：ログイン or ログアウト -->
+  <div class="header-nav">
+    <% if user_signed_in? %>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to "ログイン", new_user_session_path, style: "margin-left: 1rem;" %>
+    <% end %>
+  </div>
+</header>
