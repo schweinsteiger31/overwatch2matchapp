@@ -58,6 +58,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 新規登録後のリダイレクト先
   def after_sign_up_path_for(resource)
-    play_models_edit_path
+    edit_user_path(resource)
   end
 end
