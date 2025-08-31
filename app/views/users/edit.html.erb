@@ -26,7 +26,7 @@
         
         <div class="mb-3">
           <%= form.label :gender, "性別", class: "form-label" %>
-          <%= form.select :gender, User.genders_i18n.invert, {}, class: "form-select" %>
+          <%= form.select :gender, User.genders_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
         </div>
         
         <div class="d-grid gap-2">

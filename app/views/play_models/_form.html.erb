@@ -1,0 +1,89 @@
+<%= form_with(model: play_model) do |f| %>
+  <%# --- エラーメッセージ表示 --- %>
+  <% if play_model.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% play_model.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# --- プレイ時間 --- %>
+  <div class="mb-3">
+    <%= f.label :play_time_id, "主なプレイ時間", class: "form-label" %>
+    <%= f.select :play_time_id, PlayTime.time_slots_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+  </div>
+
+  <%# --- プレイスタイル --- %>
+  <div class="mb-3">
+    <%= f.label :play_style_id, "プレイスタイル", class: "form-label" %>
+    <%= f.select :play_style_id, PlayStyle.styles_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+  </div>
+
+  <%# --- VCのありなし (TalkStyle) --- %>
+  <div class="mb-3">
+    <%= f.label :talk_style_id, "ボイスチャット", class: "form-label" %>
+    <%= f.select :talk_style_id, TalkStyle.vcs_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+  </div>
+
+  <hr class="my-4">
+
+  <%# --- ロール別ランク --- %>
+  <h5 class="mb-3">ロール別ランク</h5>
+  <div class="row">
+    <div class="col">
+      <%= f.label :tank_rank_id, "タンク", class: "form-label" %>
+      <%= f.select :tank_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+    </div>
+    <div class="col">
+      <%= f.label :damage_rank_id, "ダメージ", class: "form-label" %>
+      <%= f.select :damage_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+    </div>
+    <div class="col">
+      <%= f.label :support_rank_id, "サポート", class: "form-label" %>
+      <%= f.select :support_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <%# --- 得意キャラ選択 (アコーディオン形式) --- %>
+  <h5 class="mb-3">得意ヒーロー (最大6人まで)</h5>
+  <div class="accordion" id="heroAccordion">
+    
+    <%# --- タンクヒーロー --- %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTank">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTank" aria-expanded="false" aria-controls="collapseTank">
+          タンク
+        </button>
+      </h2>
+      <div id="collapseTank" class="accordion-collapse collapse" aria-labelledby="headingTank" data-bs-parent="#heroAccordion">
+        <div class="accordion-body">
+          <div class="row">
+            <% Hero.where(role: 'タンク').each do |hero| %>
+              <div class="col-3 text-center mb-3">
+                <%= f.check_box :hero_ids, { multiple: true, class: 'btn-check' }, hero.id, nil %>
+                <%= f.label "hero_ids_#{hero.id}", class: 'btn btn-outline-primary w-100' do %>
+                  <%= image_tag hero.icon_url, style: "width: 50px; height: 50px; object-fit: cover;" %><br>
+                  <%= hero.name %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%# --- ダメージとサポートも同様に記述 --- %>
+    <%# (ダメージヒーローとサポートヒーローのブロックも上記タンクと同様に追加してください) %>
+
+  </div>
+  
+  <%# --- 送信ボタン --- %>
+  <div class="d-grid mt-4">
+    <%= f.submit "登録して始める", class: "btn btn-primary" %>
+  </div>
+<% end %>

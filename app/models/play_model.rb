@@ -12,7 +12,12 @@ class PlayModel < ApplicationRecord
   has_many :favorite_heroes
   has_many :heroes, through: :favorite_heroes
 
+  validates :play_time_id, presence: true
+  validates :play_style_id, presence: true
+  validates :talk_style_id, presence: true
   validate :favorite_hero_limit
+
+
 
   private
 

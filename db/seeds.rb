@@ -23,16 +23,10 @@ roles.each do |role, prefix|
 end
 
 
-rank_names = %w[
-  ブロンズ
-  シルバー
-  ゴールド
-  プラチナ
-  ダイヤモンド
-  マスター
-  グランドマスター
-  トップ500
-]
+Rank.tiers.keys.each do |tier|
+  Rank.find_or_create_by!(tier: tier)
+end
+
 
 rank_names.each_with_index do |name, i|
   Rank.find_or_create_by!(name: name)
