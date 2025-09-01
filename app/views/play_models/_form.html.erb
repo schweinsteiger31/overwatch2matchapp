@@ -13,39 +13,39 @@
   <%# --- プレイ時間 --- %>
   <div class="mb-3">
     <%= f.label :play_time_id, "主なプレイ時間", class: "form-label" %>
-    <%= f.select :play_time_id, PlayTime.time_slots_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+    <%= f.select :play_time_id, PlayTime.time_slots_i18n.invert, { prompt: "選択してください" }, { class: "form-select" } %>
   </div>
 
   <%# --- プレイスタイル --- %>
   <div class="mb-3">
     <%= f.label :play_style_id, "プレイスタイル", class: "form-label" %>
-    <%= f.select :play_style_id, PlayStyle.styles_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+    <%= f.select :play_style_id, PlayStyle.styles_i18n.invert, { prompt: "選択してください" }, { class: "form-select" } %>
   </div>
 
   <%# --- VCのありなし (TalkStyle) --- %>
   <div class="mb-3">
     <%= f.label :talk_style_id, "ボイスチャット", class: "form-label" %>
-    <%= f.select :talk_style_id, TalkStyle.vcs_i18n.invert, { prompt: "選択してください" }, class: "form-select" %>
+    <%= f.select :talk_style_id, TalkStyle.vcs_i18n.invert, { prompt: "選択してください" }, { class: "form-select" } %>
   </div>
 
   <hr class="my-4">
 
   <%# --- ロール別ランク --- %>
   <h5 class="mb-3">ロール別ランク</h5>
-  <div class="row">
-    <div class="col">
-      <%= f.label :tank_rank_id, "タンク", class: "form-label" %>
-      <%= f.select :tank_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+    <div class="row">
+     <div class="col">
+        <%= f.label :tank_rank_id, "タンク", class: "form-label" %>
+        <%= f.select :tank_rank_id, Rank.tiers_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+     </div>
+     <div class="col">
+        <%= f.label :damage_rank_id, "ダメージ", class: "form-label" %>
+        <%= f.select :damage_rank_id, Rank.tiers_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+     </div>
+     <div class="col">
+        <%= f.label :support_rank_id, "サポート", class: "form-label" %>
+        <%= f.select :support_rank_id, Rank.tiers_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
+     </div>
     </div>
-    <div class="col">
-      <%= f.label :damage_rank_id, "ダメージ", class: "form-label" %>
-      <%= f.select :damage_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
-    </div>
-    <div class="col">
-      <%= f.label :support_rank_id, "サポート", class: "form-label" %>
-      <%= f.select :support_rank_id, Rank.ranks_i18n.invert, { prompt: "未設定" }, class: "form-select" %>
-    </div>
-  </div>
 
   <hr class="my-4">
 
@@ -77,13 +77,20 @@
       </div>
     </div>
     
-    <%# --- ダメージとサポートも同様に記述 --- %>
-    <%# (ダメージヒーローとサポートヒーローのブロックも上記タンクと同様に追加してください) %>
+    <%# --- ダメージヒーロー --- %>
+    <%# (上記タンクヒーローのブロックを参考に、role: 'ダメージ' として同様に記述) %>
+
+    <%# --- サポートヒーロー --- %>
+    <%# (上記タンクヒーローのブロックを参考に、role: 'サポート' として同様に記述) %>
 
   </div>
   
   <%# --- 送信ボタン --- %>
   <div class="d-grid mt-4">
-    <%= f.submit "登録して始める", class: "btn btn-primary" %>
+    <% if play_model.persisted? %>
+      <%= f.submit "更新する", class: "btn btn-primary" %>
+    <% else %>
+      <%= f.submit "登録する", class: "btn btn-primary" %>
+    <% end %>
   </div>
 <% end %>

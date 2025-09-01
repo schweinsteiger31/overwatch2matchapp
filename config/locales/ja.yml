@@ -17,4 +17,11 @@ ja:
     talk_style:
         no: VCなし
         yes: VCあり
-      
+    tier:
+        bronze: ブロンズ
+        silver: シルバー
+        gold: ゴールド
+        platinum: プラチナ
+        diamond: ダイヤモンド
+        master: マスター
+        grandmaster: グランドマスター
