@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  partner_condition: one
+  role: 1
+  rank: one
+  condition_type: 1
+
+two:
+  partner_condition: two
+  role: 1
+  rank: two
+  condition_type: 1

@@ -18,22 +18,22 @@ puts "ヒーローの初期データを作成します..."
 
 heroes_data = [
   #タンクヒーロー
-  { name: "D.Va",       role: :tank,    icon_url: "hero_image/tank_image/dva_icon.png" },#1
-  { name: "ウィンストン",   role: :tank,    icon_url: "hero_image/tank_image/winston_icon.png" },#2
-  { name: "オリーサ",       role: :tank,    icon_url: "hero_image/tank_image/orisa_icon.png" },#3
-  { name: "ザリア",       role: :tank,    icon_url: "hero_image/tank_image/zarya_icon.png" },#4
-  { name: "シグマ",       role: :tank,    icon_url: "hero_image/tank_image/sigma_icon.png" },#5
+  { name: "D.Va",              role: :tank,    icon_url: "hero_image/tank_image/dva_icon.png" },#1
+  { name: "ウィンストン",        role: :tank,    icon_url: "hero_image/tank_image/winston_icon.png" },#2
+  { name: "オリーサ",            role: :tank,    icon_url: "hero_image/tank_image/orisa_icon.png" },#3
+  { name: "ザリア",             role: :tank,    icon_url: "hero_image/tank_image/zarya_icon.png" },#4
+  { name: "シグマ",             role: :tank,    icon_url: "hero_image/tank_image/sigma_icon.png" },#5
   { name: "ジャンカークイーン",       role: :tank,    icon_url: "hero_image/tank_image/junker-queen_icon.png" },#6
   { name: "ドゥームフィスト",       role: :tank,    icon_url: "hero_image/tank_image/doomfist_icon.png" },#7
   { name: "ハザード",       role: :tank,    icon_url: "hero_image/tank_image/hazard_icon.png" },#8
   { name: "マウガ",       role: :tank,    icon_url: "hero_image/tank_image/mauga_icon.png" },#9
-  { name: "ラインハルト",       role: :tank,    icon_url: "hero_image/tank_image/einhardt_icon.png" },#10
-  { name: "ラマットラ",       role: :tank,    icon_url: "hero_image/tank_image/amattra_icon.png" },#11
+  { name: "ラインハルト",       role: :tank,    icon_url: "hero_image/tank_image/reinhardt_icon.png" },#10
+  { name: "ラマットラ",       role: :tank,    icon_url: "hero_image/tank_image/ramattra_icon.png" },#11
   { name: "レッキングボール",       role: :tank,    icon_url: "hero_image/tank_image/wrecking-ball_icon.png" },#12
   { name: "ロードホッグ",       role: :tank,    icon_url: "hero_image/tank_image/roadhog_icon.png" },#13
 
   #ダメージヒーロー
-  { name: "アッシュ",       role: :damage,    icon_url: "hero_image/damage_image/ash_icon.png" },#1
+  { name: "アッシュ",       role: :damage,    icon_url: "hero_image/damage_image/ashe_icon.png" },#1
   { name: "ウィドウメイカー",       role: :damage,    icon_url: "hero_image/damage_image/widowmaker_icon.png" },#2
   { name: "エコー",       role: :damage,    icon_url: "hero_image/damage_image/echo_icon.png" },#3
   { name: "キャスディ",       role: :damage,    icon_url: "hero_image/damage_image/cassidy_icon.png" },#4  
@@ -41,11 +41,11 @@ heroes_data = [
   { name: "シンメトラ",       role: :damage,    icon_url: "hero_image/damage_image/symmetra_icon.png" },#6  
   { name: "ジャンクラット",       role: :damage,    icon_url: "hero_image/damage_image/junkrat_icon.png" },#7
   { name: "ソジョーン",       role: :damage,    icon_url: "hero_image/damage_image/sojourn_icon.png" },#8
-  { name: "ソルジャー76",       role: :damage,    icon_url: "hero_image/damage_image/solder-76_icon.png" },#9
+  { name: "ソルジャー76",       role: :damage,    icon_url: "hero_image/damage_image/soldier-76_icon.png" },#9
   { name: "ソンブラ",       role: :damage,    icon_url: "hero_image/damage_image/sombra_icon.png" },#10
   { name: "トールビョーン",       role: :damage,    icon_url: "hero_image/damage_image/torbjorn_icon.png" },#11
   { name: "バスティオン",       role: :damage,    icon_url: "hero_image/damage_image/bastion_icon.png" },#12
-  { name: "ファラ",       role: :damage,    icon_url: "hero_image/damage_image/phara_icon.png" },#13
+  { name: "ファラ",       role: :damage,    icon_url: "hero_image/damage_image/pharah_icon.png" },#13
   { name: "フレイヤ",       role: :damage,    icon_url: "hero_image/damage_image/freja_icon.png" },#14
   { name: "ベンチャー",       role: :damage,    icon_url: "hero_image/damage_image/venture_icon.png" },#15
   { name: "メイ",       role: :damage,    icon_url: "hero_image/damage_image/mei_icon.png" },#16
@@ -54,7 +54,7 @@ heroes_data = [
   #サポートヒーロー
   { name: "アナ",       role: :support,    icon_url: "hero_image/support_image/ana_icon.png" },#1
   { name: "イラリー",       role: :support,    icon_url: "hero_image/support_image/illari_icon.png" },#2
-  { name: "ウーヤン",       role: :support,    icon_url: "hero_image/support_image/wuyang_icon.png" },#3
+  { name: "ウーヤン",       role: :support,    icon_url: "hero_image/support_image/wuynag_icon.png" },#3
   { name: "キリコ",       role: :support,    icon_url: "hero_image/support_image/kiriko_icon.png" },#4
   { name: "ジュノ",       role: :support,    icon_url: "hero_image/support_image/juno_icon.png" },#5
   { name: "ゼニヤッタ",       role: :support,    icon_url: "hero_image/support_image/zenyatta_icon.png" },#6
@@ -72,16 +72,6 @@ heroes_data.each do |hero_data|
 end
 
 puts "ヒーローの初期データを作成しました！"
-
-
-roles.each do |role, prefix|
-  10.times do |n|
-    Hero.find_or_create_by!(
-      name: "#{prefix}#{n + 1}",
-      role: role
-    )
-  end
-end
 
 
 Rank.tiers.keys.each do |tier|

@@ -25,3 +25,8 @@ ja:
         diamond: ダイヤモンド
         master: マスター
         grandmaster: グランドマスター
+    partner_condition: 
+      age_preference:
+        any: "誰でも可能"
+        adults_only: "成人以上"
+        close_in_age: "自分に近い年齢"

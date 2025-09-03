@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  partner_condition: one
+  hero: one
+
+two:
+  partner_condition: two
+  hero: two

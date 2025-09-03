@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">相手に求める条件</h2>
+
+      <%= form_with(model: @partner_condition) do |f| %>
+        <%# --- エラーメッセージ表示 --- %>
+        <% if @partner_condition.errors.any? %>
+          <div class="alert alert-danger">
+            <ul>
+              <% @partner_condition.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%# --- 年齢条件 --- %>
+        <div class="mb-3">
+          <%= f.label :age_preference, "年齢", class: "form-label" %>
+          <%= f.select :age_preference, PartnerCondition.age_preferences_i18n.invert, {}, { class: "form-select" } %>
+        </div>
+
+        <%# --- プレイ時間 --- %>
+        <div class="mb-3">
+          <%= f.label :play_time_id, "主なプレイ時間", class: "form-label" %>
+          <%= f.select :play_time_id, PlayTime.time_slots_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
+        </div>
+
+        <%# --- プレイスタイル --- %>
+        <div class="mb-3">
+          <%= f.label :play_style_id, "プレイスタイル", class: "form-label" %>
+          <%= f.select :play_style_id, PlayStyle.styles_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
+        </div>
+        
+        <%# --- VCのありなし (TalkStyle) --- %>
+        <div class="mb-3">
+          <%= f.label :talk_style_id, "ボイスチャット", class: "form-label" %>
+          <%= f.select :talk_style_id, TalkStyle.styles_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
+        </div>
+        
+        <div class="d-grid mt-4">
+          <%= f.submit "条件を保存する", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

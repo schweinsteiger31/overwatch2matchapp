@@ -1,0 +1,2 @@
+module PartnerConditionsHelper
+end
