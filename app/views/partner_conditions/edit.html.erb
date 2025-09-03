@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <h2 class="text-center mb-4">相手に求める条件</h2>
 
-      <%= form_with(model: @partner_condition) do |f| %>
+      <%= form_with(model: @partner_condition, url: partner_condition_path, method: :patch) do |f| %>
         <%# --- エラーメッセージ表示 --- %>
         <% if @partner_condition.errors.any? %>
           <div class="alert alert-danger">
@@ -36,7 +36,7 @@
         <%# --- VCのありなし (TalkStyle) --- %>
         <div class="mb-3">
           <%= f.label :talk_style_id, "ボイスチャット", class: "form-label" %>
-          <%= f.select :talk_style_id, TalkStyle.styles_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
+          <%= f.select :talk_style_id, TalkStyle.vcs_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
         </div>
         
         <div class="d-grid mt-4">

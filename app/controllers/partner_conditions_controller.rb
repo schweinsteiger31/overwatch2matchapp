@@ -22,10 +22,11 @@ class PartnerConditionsController < ApplicationController
   end
 
   def partner_condition_params
-    # まずはPartnerConditionモデルの直接の属性だけを許可します
     params.require(:partner_condition).permit(
-      :age_preference, :play_time_id, :play_style_id, :talk_style_id
+      :age_preference, :play_time_id, :play_style_id, :talk_style_id,
+      # ▼▼▼▼▼ 以下の2行を追記 ▼▼▼▼▼
+      role_criterions_attributes: [:id, :role, :rank_id, :condition_type, :_destroy],
+      partner_condition_heroes_attributes: [:id, :hero_id, :_destroy]
     )
-    # ロールごとの条件やヒーロー条件は、後ほど追加します
   end
 end
