@@ -38,6 +38,23 @@
           <%= f.label :talk_style_id, "ボイスチャット", class: "form-label" %>
           <%= f.select :talk_style_id, TalkStyle.vcs_i18n.invert, { prompt: "指定しない" }, { class: "form-select" } %>
         </div>
+
+        <hr class="my-4">
+        <h5 class="mb-3">ロールごとの条件</h5>
+
+        <%= f.fields_for :role_criterions do |criterion_form| %>
+          <div class="row align-items-center mb-2">
+            <div class="col">
+              <%= criterion_form.select :role, RoleCriterion.roles_i18n.invert, { prompt: "ロールを選択" }, class: "form-select" %>
+            </div>
+            <div class="col">
+              <%= criterion_form.select :rank_id, Rank.tiers_i18n.invert, { prompt: "ランクを指定" }, class: "form-select" %>
+            </div>
+            <div class="col">
+              <%= criterion_form.select :condition_type, RoleCriterion.condition_types_i18n.invert, {}, class: "form-select" %>
+            </div>
+          </div>
+        <% end %>
         
         <div class="d-grid mt-4">
           <%= f.submit "条件を保存する", class: "btn btn-primary" %>

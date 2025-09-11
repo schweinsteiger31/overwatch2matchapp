@@ -3,7 +3,7 @@ class PartnerConditionsController < ApplicationController
   before_action :set_partner_condition # 各アクションの前に@partner_conditionを準備
 
   def edit
-    
+    3.times { @partner_condition.role_criterions.build } if @partner_condition.role_criterions.blank?
   end
 
   def update

@@ -30,3 +30,15 @@ ja:
         any: "誰でも可能"
         adults_only: "成人以上"
         close_in_age: "自分に近い年齢"
+    activerecord:
+      models:
+        play_model: "プレイ情報"
+      attributes:
+        play_model:
+          play_time_id: "主なプレイ時間"
+          play_style_id: "プレイスタイル"
+          talk_style_id: "ボイスチャット"
+    errors:
+      messages:
+        blank: "を入力してください"
+        required: "を入力してください"

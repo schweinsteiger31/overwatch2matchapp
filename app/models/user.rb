@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :user_heroes
   has_many :heroes, through: :user_heroes
   has_one :partner_condition, dependent: :destroy
+  has_many :hero_proficiencies, dependent: :destroy 
 
   enum :gender, { male: 0, female: 1, other: 2 }
 

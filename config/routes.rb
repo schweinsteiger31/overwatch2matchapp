@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get "partner_conditions/edit"
-  get "partner_conditions/update"
-  # Deviseのルートを最優先にする
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
@@ -19,7 +16,11 @@ Rails.application.routes.draw do
   end
 
   resources :play_models, only: [:new, :create]
+  #プレイモデルの登録後に飛ばすページ
+  get 'play_models/completion', to: 'play_models#completion', as: 'play_model_completion'
+  
 
   resource :partner_condition, only: [:edit, :update]
+
   
 end

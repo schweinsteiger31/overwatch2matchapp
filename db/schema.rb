@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_03_160359) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_11_063842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_160359) do
     t.datetime "updated_at", null: false
     t.index ["hero_id"], name: "index_favorite_heroes_on_hero_id"
     t.index ["play_model_id"], name: "index_favorite_heroes_on_play_model_id"
+  end
+
+  create_table "hero_proficiencies", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "hero_id", null: false
+    t.integer "proficiency_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hero_id"], name: "index_hero_proficiencies_on_hero_id"
+    t.index ["user_id"], name: "index_hero_proficiencies_on_user_id"
   end
 
   create_table "heroes", force: :cascade do |t|
@@ -137,6 +147,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_160359) do
 
   add_foreign_key "favorite_heroes", "heroes"
   add_foreign_key "favorite_heroes", "play_models"
+  add_foreign_key "hero_proficiencies", "heroes"
+  add_foreign_key "hero_proficiencies", "users"
   add_foreign_key "partner_condition_heros", "heroes"
   add_foreign_key "partner_condition_heros", "partner_conditions"
   add_foreign_key "partner_conditions", "play_styles"
