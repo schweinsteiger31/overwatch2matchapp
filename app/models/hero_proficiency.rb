@@ -3,7 +3,7 @@ class HeroProficiency < ApplicationRecord
   belongs_to :hero
 
   
-  enum proficiency_level: {
+  enum :proficiency_level, {
     expert: 0,        # 大得意
     proficient: 1,    # 得意
     weak: 2,          # 不得意

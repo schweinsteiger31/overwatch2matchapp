@@ -2,11 +2,14 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update]
 
   def show
-    @user = User.find(params[:id])
+    @user = User.includes(play_model: [:tank_rank, :damage_rank, :support_rank], hero_proficiencies: :hero).find(params[:id])
+
+    @heroes_by_role = @user.hero_proficiencies.group_by { |p| p.hero.role }
+
+    
   end
 
   def edit
-    
     # @user = current_user
   end
 
@@ -19,7 +22,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def registration_completed
+  def registration_complete
   end
 
   
@@ -30,7 +33,6 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
-  # updateアクションで使う、安全なパラメータを受け取るメソッド
   def user_params
     params.require(:user).permit(:name, :age, :gender)
   end

@@ -1,0 +1,16 @@
+<div class="container my-5">
+  <h2 class="text-center mb-4">
+    <%= @matched_user.name %>さんとのマッチング
+  </h2>
+
+  <div class="text-center">
+    <p>マッチングが成立しました！</p>
+    
+    <%# ここにDiscord関連を追加予定 %>
+    <p>
+      <strong>Discord ID:</strong> <%= @matched_user.discord_id %>
+    </p>
+
+    <%= link_to "相手のプロフィールを見る", user_path(@matched_user), class: "btn btn-primary" %>
+  </div>
+</div>

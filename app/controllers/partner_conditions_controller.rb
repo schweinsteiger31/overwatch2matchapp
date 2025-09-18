@@ -1,6 +1,6 @@
 class PartnerConditionsController < ApplicationController
-  before_action :authenticate_user! # ログイン必須
-  before_action :set_partner_condition # 各アクションの前に@partner_conditionを準備
+  before_action :authenticate_user! 
+  before_action :set_partner_condition 
 
   def edit
     3.times { @partner_condition.role_criterions.build } if @partner_condition.role_criterions.blank?
@@ -24,7 +24,6 @@ class PartnerConditionsController < ApplicationController
   def partner_condition_params
     params.require(:partner_condition).permit(
       :age_preference, :play_time_id, :play_style_id, :talk_style_id,
-      # ▼▼▼▼▼ 以下の2行を追記 ▼▼▼▼▼
       role_criterions_attributes: [:id, :role, :rank_id, :condition_type, :_destroy],
       partner_condition_heroes_attributes: [:id, :hero_id, :_destroy]
     )

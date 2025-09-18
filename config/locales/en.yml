@@ -27,7 +27,7 @@
 #       "yes": yup
 #       enabled: "ON"
 
-  ennum:
+  enum:
     user:
       gender: 
         male: "男性"

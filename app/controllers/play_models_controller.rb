@@ -16,7 +16,6 @@ class PlayModelsController < ApplicationController
   end
 
   def edit
-    # before_actionで@play_modelがセットされます
   end
 
   def update
@@ -28,18 +27,15 @@ class PlayModelsController < ApplicationController
   end
 
   def completion
-    # 完了ページを表示するアクション
   end
 
-  private # これより下は、このコントローラーの内部だけで使うメソッドです
+  private 
 
   def set_play_model
-    # editとupdateで使う、既存のPlayModelを探す
     @play_model = current_user.play_model
   end
 
   def play_model_params
-    # フォームから送られてくる、すべてのパラメータを許可します
     params.require(:play_model).permit(
       :play_time_id,
       :play_style_id,
@@ -47,7 +43,6 @@ class PlayModelsController < ApplicationController
       :tank_rank_id,
       :damage_rank_id,
       :support_rank_id,
-      hero_ids: []
     )
   end
 end

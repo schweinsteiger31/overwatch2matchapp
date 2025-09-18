@@ -1,0 +1,62 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <h2 class="text-center mb-4">ヒーロー習熟度の設定</h2>
+      <p class="text-center text-muted mb-4">
+        あなたのヒーローの習熟度を教えてください。<br>
+        この情報は、あなたに最適なチームメイトを見つけるために使われます。
+      </p>
+
+      <%= form_with(model: @user, url: hero_proficiency_path, method: :patch) do |f| %>
+        <div class="accordion" id="heroProficiencyAccordion">
+          <% @heroes_by_role.each_with_index do |(role, heroes_in_role), index| %>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading-<%= role %>">
+                <button class="accordion-button <%= 'collapsed' if index > 0 %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= role %>" aria-expanded="<%= index == 0 %>" aria-controls="collapse-<%= role %>">
+                  <%= Hero.human_attribute_name("role.#{role}") %>
+                </button>
+              </h2>
+              <div id="collapse-<%= role %>" class="accordion-collapse collapse <%= 'show' if index == 0 %>" aria-labelledby="heading-<%= role %>" data-bs-parent="#heroProficiencyAccordion">
+                <div class="accordion-body">
+                  <div class="row">
+                    <%= f.fields_for :hero_proficiencies, @user.hero_proficiencies.sort_by { |p| p.hero.name } do |proficiency_form| %>
+                      <% if proficiency_form.object.hero.role == role %>
+                        <% hero = proficiency_form.object.hero %>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                          <div class="card h-100">
+                            <div class="card-body text-center">
+                              
+                              <%# ヒーロー関連%>
+                              <%= image_tag hero.icon_url, style: "width: 50px; height: 50px; object-fit: cover;" %>
+                              <strong class="d-block mt-2 mb-3 fs-5"><%= hero.name %></strong>
+
+                              <div>
+                                <%= proficiency_form.collection_radio_buttons :proficiency_level, HeroProficiency.proficiency_levels_i18n.invert, :last, :first do |b| %>
+                                  <div class="form-check form-check-inline">
+                                    <%= b.radio_button(class: 'form-check-input') %>
+                                    <%= b.label(class: 'form-check-label') %>
+                                  </div>
+                                <% end %>
+                              </div>
+                              
+                              <%= proficiency_form.hidden_field :hero_id %>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="d-grid mt-4">
+          <%= f.submit "習熟度を保存する", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

@@ -1,11 +1,17 @@
-<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
-  <div style="width: 300px;">
+<div class="d-flex justify-content-center align-items-center pb-5" style="min-height: 80vh;">
+  <div style="width: 300px; display: flex; flex-direction: column; justify-content: center;">
+    
     <h2 class="text-center mb-4">ログイン</h2>
+
+    <%# エラーメッセージ高さ固定 %>
+    <div style="min-height: 50px;">
+      <%= render "devise/shared/error_messages", resource: resource %>
+    </div>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="mb-3">
         <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: "form-control" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
       </div>
 
       <div class="mb-3">

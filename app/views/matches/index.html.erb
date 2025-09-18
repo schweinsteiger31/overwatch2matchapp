@@ -1,0 +1,29 @@
+<div class="container my-5">
+  <h2 class="text-center mb-4">マッチングが成立したユーザー</h2>
+
+  <div class="row">
+    <% if @matches.present? %>
+      <% @matches.each do |match| %>
+        <%# 自分ではない方の、マッチした相手のユーザー情報を取得 %>
+        <% matched_user = match.user_one == current_user ? match.user_two : match.user_one %>
+
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center d-flex flex-column">
+              <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= matched_user.name %>">
+              
+              <h5 class="card-title"><%= matched_user.name %></h5>
+              
+              <div class="mt-auto">
+                <p class="text-success">マッチング成立！</p>
+                <%= link_to "詳細を見る", user_path(matched_user), class: "btn btn-outline-primary" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center text-muted">まだ誰もマッチングしていません。</p>
+    <% end %>
+  </div>
+</div>

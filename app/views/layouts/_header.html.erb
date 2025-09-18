@@ -1,15 +1,66 @@
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #ccc;">
-  <!-- 左側：タイトル -->
-  <div class="header-title">
-    <%= link_to "Ow2 Match", root_path, style: "font-weight: bold; text-decoration: none; color: black;" %>
-  </div>
+<header class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <%= link_to "Ow2 Match", root_path, class: "navbar-brand" %>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <% if user_signed_in? %>
+          <li class="nav-item me-3">
+            <%= link_to "ようこそ、#{current_user.name}さん", user_path(current_user), class: "nav-link" %>
+          </li>
+          <li class="nav-item me-3">
+            <%= link_to matches_path, class: "nav-link" do %>
+              🧑‍🤝‍🧑 マッチング
+              <% if @matches_count > 0 %>
+                <span class="badge bg-success rounded-pill"><%= @matches_count %></span>
+              <% end %>
+            <% end %>
+          </li>
 
-  <!-- 右側：ログイン or ログアウト -->
-  <div class="header-nav">
-    <% if user_signed_in? %>
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "ログイン", new_user_session_path, style: "margin-left: 1rem;" %>
-    <% end %>
+          <li class="nav-item dropdown me-3">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              ❤️ いいね！
+              <% if @likes_count > 0 %>
+                <span class="badge bg-danger rounded-pill"><%= @likes_count %></span>
+              <% end %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <% if @received_likes.present? %>
+                <li><h6 class="dropdown-header">新しい「いいね！」</h6></li>
+                <% @received_likes.each do |like| %>
+                  <li>
+                    <%= link_to user_path(like.sender), class: "dropdown-item" do %>
+                      <%= image_tag "https://placehold.co/30x30", class: "rounded-circle me-2" %>
+                      <strong><%= like.sender.name %></strong>さんから「いいね！」が届いています
+                    <% end %>
+                  </li>
+                <% end %>
+              <% else %>
+                <li><a class="dropdown-item disabled" href="#">新しい「いいね！」はありません</a></li>
+              <% end %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to "すべての「いいね！」を見る", likes_path, class: "dropdown-item text-center" %></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary" %>
+          </li>
+
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary me-2" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </header>
+

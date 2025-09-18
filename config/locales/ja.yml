@@ -1,44 +1,81 @@
 ja:
+  devise:
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "すでにログアウトしています。"
+    failure:
+      invalid: "メールアドレスかパスワードが違います。"
+      unauthenticated: "ログインしてください。"
+    registrations:
+      signed_up: "アカウント登録が完了しました。"
+      updated: "アカウント情報を更新しました。"
+      destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
+
+  # モデルの属性名やエラーメッセージに関する日本語訳
+  activerecord:
+    attributes:
+      user: 
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認用）"
+        remember_me: "ログイン状態を保存する"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "を入力してください"
+              taken: "は既に使用されています"
+            password:
+              blank: "を入力してください"
+              confirmation: "が一致しません"
+            password_confirmation:
+              blank: "を入力してください"
+
+  #エラー関連
+  errors:
+    messages:
+      blank: "を入力してください"
+      required: "を入力してください"
+      taken: "は既に使用されています"
+      not_saved:
+        one: "1件のエラーが発生したため、保存できませんでした:"
+        other: "%{count}件のエラーが発生したため、保存できませんでした:"
+
   enums:
     user:
       gender:
-        male: 男性
-        female: 女性
-        other: その他     
+        male: "男性"
+        female: "女性"
+        other: "その他"
     play_time:
       time_slot:
-        daytime: 日中
-        night: 夜
-        alldays: いつでも
+        daytime: "日中"
+        night: "夜"
+        alldays: "いつでも"
     play_style:
-        enjoy: エンジョイ
-        strict: しっかり
-        normal: 中間
+      style:
+        enjoy: "エンジョイ"
+        strict: "しっかり"
+        normal: "中間"
     talk_style:
-        no: VCなし
-        yes: VCあり
-    tier:
-        bronze: ブロンズ
-        silver: シルバー
-        gold: ゴールド
-        platinum: プラチナ
-        diamond: ダイヤモンド
-        master: マスター
-        grandmaster: グランドマスター
-    partner_condition: 
-      age_preference:
-        any: "誰でも可能"
-        adults_only: "成人以上"
-        close_in_age: "自分に近い年齢"
-    activerecord:
-      models:
-        play_model: "プレイ情報"
-      attributes:
-        play_model:
-          play_time_id: "主なプレイ時間"
-          play_style_id: "プレイスタイル"
-          talk_style_id: "ボイスチャット"
-    errors:
-      messages:
-        blank: "を入力してください"
-        required: "を入力してください"
+      vc:
+        no: "VCなし"
+        yes: "VCあり"
+    rank:
+      tier:
+        bronze: "ブロンズ"
+        silver: "シルバー"
+        gold: "ゴールド"
+        platinum: "プラチナ"
+        diamond: "ダイヤモンド"
+        master: "マスター"
+        grandmaster: "グランドマスター"
+    hero_proficiency:
+      proficiency_level:
+        expert: "⭐️ (大得意)"
+        proficient: "🔴 (得意)"
+        weak: "🔺 (不得意)"
+        unable_to_play: "❌ (不可)"
+

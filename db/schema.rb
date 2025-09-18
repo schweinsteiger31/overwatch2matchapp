@@ -10,18 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_11_063842) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-
-  create_table "favorite_heroes", force: :cascade do |t|
-    t.bigint "play_model_id", null: false
-    t.bigint "hero_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["hero_id"], name: "index_favorite_heroes_on_hero_id"
-    t.index ["play_model_id"], name: "index_favorite_heroes_on_play_model_id"
-  end
 
   create_table "hero_proficiencies", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -39,6 +30,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_063842) do
     t.datetime "updated_at", null: false
     t.integer "role", default: 0, null: false
     t.string "icon_url"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_likes_on_receiver_id"
+    t.index ["sender_id"], name: "index_likes_on_sender_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "user_one_id", null: false
+    t.bigint "user_two_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_one_id"], name: "index_matches_on_user_one_id"
+    t.index ["user_two_id"], name: "index_matches_on_user_two_id"
   end
 
   create_table "partner_condition_heros", force: :cascade do |t|
@@ -145,10 +154,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_063842) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "favorite_heroes", "heroes"
-  add_foreign_key "favorite_heroes", "play_models"
   add_foreign_key "hero_proficiencies", "heroes"
   add_foreign_key "hero_proficiencies", "users"
+  add_foreign_key "likes", "users", column: "receiver_id"
+  add_foreign_key "likes", "users", column: "sender_id"
+  add_foreign_key "matches", "users", column: "user_one_id"
+  add_foreign_key "matches", "users", column: "user_two_id"
   add_foreign_key "partner_condition_heros", "heroes"
   add_foreign_key "partner_condition_heros", "partner_conditions"
   add_foreign_key "partner_conditions", "play_styles"
