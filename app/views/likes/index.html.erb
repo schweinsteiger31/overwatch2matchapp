@@ -1,26 +1,28 @@
 <div class="container my-5">
-  <h2 class="text-center mb-4">あなたに「いいね！」を送ったユーザー</h2>
+  <ul class="nav nav-tabs nav-fill mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= likes_path %>">もらった いいね！</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="<%= sent_likes_path %>">送った いいね！</a>
+    </li>
+  </ul>
 
   <div class="row">
     <% if @liking_users.present? %>
       <% @liking_users.each do |user| %>
         <div class="col-md-4 mb-4">
-          <div class="card h-100">
+          <div class="card h-100 shadow-sm">
             <div class="card-body text-center d-flex flex-column">
-              <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= user.name %>">
-              
+              <% if user.avatar.attached? %>
+                <%= image_tag user.avatar.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3 mx-auto" %>
+              <% else %>
+                <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= user.name %>">
+              <% end %>
               <h5 class="card-title"><%= user.name %></h5>
-              
+  
               <div class="mt-auto">
-                <%# 「詳しくみる」ボタン %>
-                <%= link_to "詳しくみる", user_path(user), class: "btn btn-outline-primary me-2" %>
-                
-                <%# 「いいね！を返す」ボタン %>
-                <% if !current_user.liked_users.include?(user) %>
-                  <%= button_to "いいね！を返す", user_like_path(user), method: :post, class: "btn btn-success" %>
-                <% else %>
-                  <span class="btn btn-secondary disabled">いいね！済み</span>
-                <% end %>
+                <%= link_to "詳しくみる", user_path(user), class: "btn btn-outline-primary" %>
               </div>
             </div>
           </div>
@@ -31,3 +33,4 @@
     <% end %>
   </div>
 </div>
+

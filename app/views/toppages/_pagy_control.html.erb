@@ -1,0 +1,5 @@
+<div class="text-center my-4">
+  <% if @pagy&.next %>
+    <%= link_to "もっと見る", "?page=#{@pagy.next}", class: "btn btn-outline-primary" %>
+  <% end %>
+</div>

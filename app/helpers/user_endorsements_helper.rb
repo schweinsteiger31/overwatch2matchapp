@@ -1,0 +1,2 @@
+module UserEndorsementsHelper
+end

@@ -1,0 +1,51 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header text-center">
+          <h2 class="mb-0"><%= @endorsee.name %> さんを評価</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <p class="text-center text-muted">一緒にプレイした感想を、以下のタグから選んでください。（複数選択可）</p>
+
+          <%= form_with url: user_user_endorsements_path(@endorsee), scope: :endorsement, method: :post do |f| %>
+            
+            <% if flash.now[:alert] %>
+              <div class="alert alert-danger">
+                <%= flash.now[:alert] %>
+              </div>
+            <% end %>
+
+            <div class="mb-4">
+              <h5>👍 良かった点</h5>
+              <%= f.collection_check_boxes :tag_ids, @positive_tags, :id, :name do |b| %>
+                <div class="form-check">
+                  <%= b.check_box class: 'form-check-input' %>
+                  <%= b.label(class: 'form-check-label') { b.text } %>
+                </div>
+              <% end %>
+            </div>
+
+            <hr>
+
+            <div class="mb-4">
+              <h5>👎 改善してほしい点（通報）</h5>
+              <small class="form-text text-muted d-block mb-2">この評価は相手には通知されず、運営の参考情報としてのみ利用されます。</small>
+              <%= f.collection_check_boxes :tag_ids, @negative_tags, :id, :name do |b| %>
+                <div class="form-check">
+                  <%= b.check_box class: 'form-check-input' %>
+                  <%= b.label(class: 'form-check-label') { b.text } %>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <%= f.submit "評価を送信する", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

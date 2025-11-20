@@ -29,6 +29,11 @@ gem "sassc-rails"
 
 gem "enum_help"
 
+# ページネーション
+gem "pagy"
+
+# 画像アップロード
+gem "image_processing", "~> 1.2"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"

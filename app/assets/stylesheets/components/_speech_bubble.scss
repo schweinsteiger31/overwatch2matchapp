@@ -1,0 +1,31 @@
+// このファイルは app/assets/stylesheets/components/_speech_bubble.scss として新規作成します
+
+.speech-bubble {
+    position: relative;
+    background: #e9ecef; /* 少し濃いグレー */
+    border-radius: .4em;
+    padding: 0.75rem;
+    min-height: 72px; /* 高さを少し確保 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .speech-bubble:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: #e9ecef;
+    border-bottom: 0;
+    margin-left: -10px;
+  }
+  
+  .speech-bubble-text {
+    font-size: 0.9rem;
+    color: #495057; /* テキストの色 */
+  }
+  

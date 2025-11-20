@@ -4,14 +4,36 @@
 
       <%# --- 基本情報 --- %>
       <div class="text-center mb-4">
-        <img src="https://placehold.co/150x150" class="rounded-circle mb-3" alt="<%= @user.name %>">
-        <h1><%= @user.name %></h1>
+        <% if @user == current_user %>
+          <div class="position-relative d-inline-block" style="width: 150px; height: 150px;">
+            <%= form_with(model: @user, url: update_avatar_user_path(@user), method: :patch, id: "avatar-form") do |f| %>
+              <div class="position-relative d-inline-block" style="width: 150px; height: 150px;">
+                <% if @user.avatar.attached? %>
+                  <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "rounded-circle", style: "width: 100%; height: 100%; object-fit: cover;" %>
+                <% else %>
+                  <img src="https://placehold.co/150x150/EFEFEF/AAAAAA&text=Icon" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+                <% end %>
+                <%= f.label :avatar, class: "avatar-upload-label" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <% end %>
+                <%= f.file_field :avatar, class: "d-none", id: "user_avatar" %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "rounded-circle", style: "width: 150px; height: 150px; object-fit: cover;" %>
+          <% else %>
+            <img src="https://placehold.co/150x150/EFEFEF/AAAAAA&text=Icon" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="<%= @user.name %>">
+          <% end %>
+        <% end %>
+
+        <h1 class="mt-3"><%= @user.name %></h1>
         <p class="text-muted">
           <%= @user.age %>歳 / <%= t("enums.user.gender.#{@user.gender}") %>
         </p>
       </div>
 
-      <%# --- アクションボタン（自分のページか、他人のページかで表示を切り替え） --- %>
       <div class="text-center mb-4">
         <% if @user == current_user %>
           <% if @user.play_model.present? %>
@@ -19,16 +41,52 @@
           <% else %>
             <%= link_to "プレイ情報を登録する", new_play_model_path, class: "btn btn-outline-primary me-2" %>
           <% end %>
-          <%= link_to "ヒーロー習熟度を編集", edit_hero_proficiency_path, class: "btn btn-outline-info" %>
-        
+          <%= link_to "ヒーロー習熟度を編集", edit_hero_proficiency_path, class: "btn btn-outline-info me-2" %>
+          <%= link_to "連絡先を編集", edit_social_links_user_path(@user), class: "btn btn-outline-dark" %>
         <% else %>
           <% if current_user.matched_with?(@user) %>
             <div class="card bg-light">
-              <div class="card-body">
+              <div class="card-body text-center">
                 <h5 class="card-title">🎉 マッチング成立！</h5>
                 <p class="card-text">
                   Discordで連絡を取り合ってみましょう。
                 </p>
+
+                <%# Discord関連 %>
+                <% if @user.discord_id.present? %>
+                  <div class="input-group mb-3">
+                    <input id="discord-id-to-copy" type="text" class="form-control" value="<%= @user.discord_id %>" readonly>
+                    <button id="copy-button" class="btn btn-info" type="button">IDをコピー</button>
+                  </div>
+                <% else %>
+                  <p class="text-muted">相手はまだDiscord IDを設定していません。</p>
+                <% end %>
+
+                <hr>
+
+                <%# 相互にプレイ記録があるかを確認 %>
+                <% if current_user.interacted_with_users.include?(@user) && @user.interacted_with_users.include?(current_user) %>
+                  
+                  <%# すでに評価済みかどうかを判定します %>
+                <% unless current_user.endorsed_users.include?(@user) %>
+
+                  <%= link_to "🤝 このユーザーを評価する", new_user_user_endorsement_path(@user), class: "btn btn-warning mt-2" %>
+                <% else %>
+                  <p class="text-success mt-2">✅ 評価済みです</p>
+                <% end %>
+
+                <% else %>
+                  <p class="card-text small text-muted">
+                    実際に遊んだら、下のボタンを押して記録しましょう。<br>
+                    お互いが記録すると、相手を評価できるようになります。
+                  </p>
+                  <% match = Match.where("(user_one_id = ? AND user_two_id = ?) OR (user_one_id = ? AND user_two_id = ?)", current_user.id, @user.id, @user.id, current_user.id).first %>
+                  <% if current_user.interacted_with_users.include?(@user) %>
+                    <button class="btn btn-success" disabled>✅ あなたからの確認済み</button>
+                  <% else %>
+                    <%= button_to "🤝 プレイ済みとして記録", match_interaction_path(match), method: :post, class: "btn btn-info" %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           <% else %>
@@ -48,9 +106,14 @@
             プレイスタイル
           </div>
           <div class="card-body">
-            <p><strong>主なプレイ時間:</strong> <%= t("enums.play_time.time_slot.#{@user.play_model&.play_time&.time_slot}") %></p>
-            <p><strong>プレイスタイル:</strong> <%= t("enums.play_style.style.#{@user.play_model&.play_style&.style}") %></p>
-            <p><strong>ボイスチャット:</strong> <%= t("enums.talk_style.vc.#{@user.play_model&.talk_style&.vc}") %></p>
+            <p><strong>主なプレイ時間:</strong> <%= t("enums.play_time.time_slot.#{@user.play_model.play_time&.time_slot}") %></p>
+            <p><strong>プレイスタイル:</strong> <%= t("enums.play_style.style.#{@user.play_model.play_style&.style}") %></p>
+            <p><strong>ボイスチャット:</strong> <%= t("enums.talk_style.vc.#{@user.play_model.talk_style&.vc}") %></p>
+            <hr>
+            <p class="mb-0">
+              <strong>ひとこと:</strong>
+              <span class="text-muted"><%= @user.play_model.comment.presence || "未設定" %></span>
+            </p>
           </div>
         </div>
 
@@ -61,15 +124,15 @@
           <div class="card-body row text-center">
             <div class="col">
               <h5>タンク</h5>
-              <p><%= t("enums.rank.tier.#{@user.play_model&.tank_rank&.tier}") %></p>
+              <p><%= t("enums.rank.tier.#{@user.play_model.tank_rank&.tier}") %></p>
             </div>
             <div class="col">
               <h5>ダメージ</h5>
-              <p><%= t("enums.rank.tier.#{@user.play_model&.damage_rank&.tier}") %></p>
+              <p><%= t("enums.rank.tier.#{@user.play_model.damage_rank&.tier}") %></p>
             </div>
             <div class="col">
               <h5>サポート</h5>
-              <p><%= t("enums.rank.tier.#{@user.play_model&.support_rank&.tier}") %></p>
+              <p><%= t("enums.rank.tier.#{@user.play_model.support_rank&.tier}") %></p>
             </div>
           </div>
         </div>
@@ -93,13 +156,32 @@
                   <div class="col-md-6 d-flex align-items-center mb-2">
                     <%= image_tag proficiency.hero.icon_url, style: "width: 40px; height: 40px; object-fit: cover; margin-right: 10px;" %>
                     <span class="me-auto"><%= proficiency.hero.name %></span>
-                    <strong><%= t("enums.hero_proficiency.proficiency_level.#{proficiency.proficiency_level}") %></strong>
+                    
+                    <div class="star-rating-display" title="<%= t("enums.hero_proficiency.proficiency_level.#{proficiency.proficiency_level}") %>">
+                      <%
+                        stars = case proficiency.proficiency_level.to_sym
+                                when :expert
+                                  4
+                                when :proficient
+                                  3
+                                when :weak
+                                  2
+                                when :unable_to_play
+                                  1
+                                else
+                                  0
+                                end
+                      %>
+                      <% 4.times do |i| %>
+                        <span class="<%= 'filled' if i < stars %>">★</span>
+                      <% end %>
+                    </div>
                   </div>
                 <% end %>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">まだヒーローの習熟度が設定されていません。</p>
+            <p class="text-muted text-center">まだヒーローの習熟度が設定されていません。</p>
           <% end %>
         </div>
       </div>
@@ -107,4 +189,76 @@
     </div>
   </div>
 </div>
+
+<%# ページ固有のjavascript %>
+<style>
+  .avatar-upload-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .avatar-upload-label:hover {
+    opacity: 1;
+  }
+
+  .star-rating-display {
+    font-size: 1.2rem;
+    color: #ddd; 
+  }
+  .star-rating-display .filled {
+    color: #ffc107; 
+  }
+</style>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const avatarInput = document.getElementById('user_avatar');
+    const avatarForm = document.getElementById('avatar-form');
+
+    if (avatarInput && avatarForm) {
+      avatarInput.addEventListener('change', () => {
+        avatarForm.submit();
+      });
+    }
+
+    const copyButton = document.getElementById('copy-button');
+    const discordIdInput = document.getElementById('discord-id-to-copy');
+
+    if (copyButton && discordIdInput) {
+      copyButton.addEventListener('click', () => {
+        discordIdInput.select();
+        discordIdInput.setSelectionRange(0, 99999);
+
+        try {
+          document.execCommand('copy');
+          
+          const originalText = copyButton.textContent;
+          copyButton.textContent = 'コピーしました！';
+          copyButton.classList.remove('btn-info');
+          copyButton.classList.add('btn-success');
+          
+          setTimeout(() => {
+            copyButton.textContent = originalText;
+            copyButton.classList.remove('btn-success');
+            copyButton.classList.add('btn-info');
+          }, 2000);
+        } catch (err) {
+          console.error('コピーに失敗しました: ', err);
+        }
+        window.getSelection().removeAllRanges();
+      });
+    }
+  });
+</script>
 

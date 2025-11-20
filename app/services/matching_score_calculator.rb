@@ -4,8 +4,6 @@ class MatchingScoreCalculator
     @user_a = user_a
     @user_b = user_b
 
-    # 処理を高速化するため、2人のヒーロー習熟度を最初に一度だけ取得し、
-    # ヒーローIDですぐに検索できるハッシュ形式に変換しておく
     @proficiencies_a = @user_a.hero_proficiencies.index_by(&:hero_id)
     @proficiencies_b = @user_b.hero_proficiencies.index_by(&:hero_id)
   end
@@ -20,7 +18,7 @@ class MatchingScoreCalculator
 
   private
 
-  #ヒーローのシナジースコア計算メソッド
+  #ヒーロー習熟度のマッチングシナジーの計算メソッド
   def hero_synergy_score
     total_score = 0
 

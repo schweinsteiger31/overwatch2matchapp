@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  endorser: one
+  endorsee: one
+  endorsement_tag: one
+
+two:
+  endorser: two
+  endorsee: two
+  endorsement_tag: two

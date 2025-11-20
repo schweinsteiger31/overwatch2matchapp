@@ -9,4 +9,6 @@ class HeroProficiency < ApplicationRecord
     weak: 2,          # 不得意
     unable_to_play: 3 # 不可
   }
+
+  validates :proficiency_level, presence: true
 end

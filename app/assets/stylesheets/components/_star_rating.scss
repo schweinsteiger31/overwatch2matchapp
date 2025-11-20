@@ -1,0 +1,26 @@
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse; /* 星を右から左に並べるのがポイント */
+    justify-content: center;
+    font-size: 2rem; /* 星の大きさ */
+  }
+  
+  /* ラジオボタン本体は非表示にする */
+  .star-rating input[type="radio"] {
+    display: none;
+  }
+  
+  /* 星（ラベル）の基本スタイル */
+  .star-rating label {
+    color: #ddd; /* デフォルトの星の色 */
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  /* マウスが乗った時、その星とそれより左（HTML上は後）の星の色を変える */
+  .star-rating:not(:hover) input[type="radio"]:checked ~ label,
+  .star-rating:hover input[type="radio"]:hover ~ label {
+    color: #ffc107; /* 選択・ホバー時の星の色 (Bootstrapの黄色) */
+  }
+  
+  

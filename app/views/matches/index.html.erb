@@ -8,9 +8,13 @@
         <% matched_user = match.user_one == current_user ? match.user_two : match.user_one %>
 
         <div class="col-md-4 mb-4">
-          <div class="card h-100">
+          <div class="card h-100 shadow-sm">
             <div class="card-body text-center d-flex flex-column">
-              <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= matched_user.name %>">
+              <% if matched_user.avatar.attached? %>
+                <%= image_tag matched_user.avatar.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3 mx-auto" %>
+              <% else %>
+                <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= matched_user.name %>">
+              <% end %>
               
               <h5 class="card-title"><%= matched_user.name %></h5>
               
@@ -27,3 +31,4 @@
     <% end %>
   </div>
 </div>
+

@@ -1,0 +1,38 @@
+<div class="container my-5">
+  <%# 「切り替えタブの作成予定%>
+  <ul class="nav nav-tabs nav-fill mb-4">
+    <li class="nav-item">
+      <a class="nav-link" href="<%= likes_path %>">もらった いいね！</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= sent_likes_path %>">送った いいね！</a>
+    </li>
+  </ul>
+
+  <div class="row">
+    <% if @liked_users.present? %>
+      <% @liked_users.each do |user| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column">
+              <% if user.avatar.attached? %>
+                <%= image_tag user.avatar.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3 mx-auto" %>
+              <% else %>
+                <img src="https://placehold.co/100x100" class="rounded-circle mb-3 mx-auto" alt="<%= user.name %>">
+              <% end %>
+              <h5 class="card-title"><%= user.name %></h5>
+              
+              <div class="mt-auto">
+                <%= link_to "詳しくみる", user_path(user), class: "btn btn-outline-primary" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center text-muted">まだ誰も「いいね！」していません。</p>
+    <% end %>
+  </div>
+</div>
+
+

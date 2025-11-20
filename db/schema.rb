@@ -10,9 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_055244) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "endorsement_tags", force: :cascade do |t|
+    t.string "name"
+    t.boolean "positive"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "hero_proficiencies", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -30,6 +65,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
     t.datetime "updated_at", null: false
     t.integer "role", default: 0, null: false
     t.string "icon_url"
+  end
+
+  create_table "interaction_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "target_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_user_id"], name: "index_interaction_logs_on_target_user_id"
+    t.index ["user_id"], name: "index_interaction_logs_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -96,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
     t.integer "damage_rank_id"
     t.integer "support_rank_id"
     t.bigint "user_id", null: false
+    t.text "comment"
     t.index ["play_style_id"], name: "index_play_models_on_play_style_id"
     t.index ["play_time_id"], name: "index_play_models_on_play_time_id"
     t.index ["talk_style_id"], name: "index_play_models_on_talk_style_id"
@@ -139,6 +184,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
     t.integer "vc"
   end
 
+  create_table "user_endorsements", force: :cascade do |t|
+    t.bigint "endorser_id", null: false
+    t.bigint "endorsee_id", null: false
+    t.bigint "endorsement_tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endorsee_id"], name: "index_user_endorsements_on_endorsee_id"
+    t.index ["endorsement_tag_id"], name: "index_user_endorsements_on_endorsement_tag_id"
+    t.index ["endorser_id"], name: "index_user_endorsements_on_endorser_id"
+  end
+
+  create_table "user_ratings", force: :cascade do |t|
+    t.bigint "rater_id", null: false
+    t.bigint "rated_id", null: false
+    t.integer "score"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rated_id"], name: "index_user_ratings_on_rated_id"
+    t.index ["rater_id"], name: "index_user_ratings_on_rater_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -150,12 +217,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "encrypted_password", default: "", null: false
+    t.string "discord_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "hero_proficiencies", "heroes"
   add_foreign_key "hero_proficiencies", "users"
+  add_foreign_key "interaction_logs", "users"
+  add_foreign_key "interaction_logs", "users", column: "target_user_id"
   add_foreign_key "likes", "users", column: "receiver_id"
   add_foreign_key "likes", "users", column: "sender_id"
   add_foreign_key "matches", "users", column: "user_one_id"
@@ -175,4 +247,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172311) do
   add_foreign_key "play_models", "users"
   add_foreign_key "role_criterions", "partner_conditions"
   add_foreign_key "role_criterions", "ranks"
+  add_foreign_key "user_endorsements", "endorsement_tags"
+  add_foreign_key "user_endorsements", "users", column: "endorsee_id"
+  add_foreign_key "user_endorsements", "users", column: "endorser_id"
+  add_foreign_key "user_ratings", "users", column: "rated_id"
+  add_foreign_key "user_ratings", "users", column: "rater_id"
 end

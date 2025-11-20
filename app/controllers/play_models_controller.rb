@@ -1,5 +1,5 @@
 class PlayModelsController < ApplicationController
-  before_action :authenticate_user! # ログイン必須
+  before_action :authenticate_user! 
   before_action :set_play_model, only: [:edit, :update]
 
   def new
@@ -16,11 +16,12 @@ class PlayModelsController < ApplicationController
   end
 
   def edit
+  
   end
 
   def update
     if @play_model.update(play_model_params)
-      redirect_to root_path, notice: 'プレイ情報を更新しました。'
+      redirect_to user_path(current_user), notice: 'プレイ情報を更新しました。'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,6 +44,7 @@ class PlayModelsController < ApplicationController
       :tank_rank_id,
       :damage_rank_id,
       :support_rank_id,
+      :comment
     )
   end
 end

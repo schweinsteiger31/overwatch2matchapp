@@ -1,0 +1,7 @@
+<%= turbo_stream.append "users_list" do %>
+  <%= render partial: "toppages/user_card", collection: @recommended_users, as: :recommendation %>
+<% end %>
+
+<%= turbo_stream.update "pagy-container" do %>
+  <%= render "toppages/pagy_control" %>
+<% end %>

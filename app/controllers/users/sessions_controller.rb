@@ -24,4 +24,13 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+  def destroy
+    super do
+      respond_to do |format|
+        # ヘッダーだけを書き換える
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("header", partial: "layouts/header") }
+        format.html { redirect_to root_path } # 非Turboリクエスト用
+      end
+    end
+  end
 end
